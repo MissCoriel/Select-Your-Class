@@ -1,0 +1,10 @@
+﻿{
+  "Name": "Select Your Class",
+  "Author": "MissCoriel",
+  "Version": "0.0.1-05162020-1919",
+  "Description": "Choose a profession",
+  "UniqueID": "misscoriel.class",
+  "EntryDll": "SelectYourClass.dll",
+  "MinimumApiVersion": "2.10.0",
+  "UpdateKeys": [ "Nexus: " ]
+}
