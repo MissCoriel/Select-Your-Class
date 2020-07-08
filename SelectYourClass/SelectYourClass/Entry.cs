@@ -12,7 +12,7 @@ namespace SelectYourClass
 {
     class Mod : StardewModdingAPI.Mod
     {
-        bool choseClass = false;
+        public static bool choseClass = false;
         internal static IMonitor TempMonitor;
 
         public override void Entry(IModHelper helper)
@@ -28,6 +28,7 @@ namespace SelectYourClass
                 if (Game1.activeClickableMenu == null)
                 {
                     Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
+                    choseClass = true;
                 }
             }
         }

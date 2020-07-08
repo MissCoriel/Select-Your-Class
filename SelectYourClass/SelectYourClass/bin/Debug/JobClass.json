@@ -4,13 +4,13 @@
     "Description": "Farmers are masters of the land.  They can produce finer crops, find better forage, and produce better animal products.",
     "ModHP": -25,
     "ModStam": 50,
-    "FarmingSkill": 3,
-    "ForageSkill": 3,
-    "FishingSkill": -3,
-    "MiningSkill": -3,
-    "CombatSkill": 0,
+    "FarmingSkill": 3, // not implemented yet
+    "ForageSkill": 3, // not implemented yet
+    "FishingSkill": -3, // not implemented yet
+    "MiningSkill": -3, // not implemented yet
+    "CombatSkill": 0, // not implemented yet
     "AddFarmingLevel": 3,
-    "AddForageLevel": 2,
+    "AddForagingLevel": 2,
     "AddFishingLevel": 0,
     "AddMiningLevel": 0,
     "AddCombatLevel": 0
@@ -19,14 +19,14 @@
     "Name": "Angler",
     "Description": "Anglers have an affinity of fishing.  They tend to catch better fish sooner and rare fish easier.",
     "ModHP": -50,
-    "ModStam": 50,
-    "FarmingSkill": -3,
-    "ForageSkill": 1,
-    "FishingSkill": 4,
-    "MiningSkill": -3,
-    "CombatSkill": -1,
+    "ModStam": 75,
+    "FarmingSkill": -3, // not implemented yet
+    "ForageSkill": 1, // not implemented yet
+    "FishingSkill": 4, // not implemented yet
+    "MiningSkill": -3, // not implemented yet
+    "CombatSkill": -1, // not implemented yet
     "AddFarmingLevel": 0,
-    "AddForageLevel": 0,
+    "AddForagingLevel": 1,
     "AddFishingLevel": 3,
     "AddMiningLevel": 0,
     "AddCombatLevel": 0
@@ -36,13 +36,13 @@
     "Description": "Miners are tough prospectors, hardened for work in the mines.",
     "ModHP": 50,
     "ModStam": 50,
-    "FarmingSkill": -5,
-    "ForageSkill": -5,
-    "FishingSkill": -5,
-    "MiningSkill": 3,
-    "CombatSkill": 3,
-    "AddFarmingLevel": 0,
-    "AddForageLevel": 0,
+    "FarmingSkill": -5, // not implemented yet
+    "ForageSkill": -5, // not implemented yet
+    "FishingSkill": -5, // not implemented yet
+    "MiningSkill": 3, // not implemented yet
+    "CombatSkill": 3, // not implemented yet
+    "AddFarmingLevel": 1,
+    "AddForagingLevel": 0,
     "AddFishingLevel": 0,
     "AddMiningLevel": 3,
     "AddCombatLevel": 3
@@ -52,15 +52,15 @@
     "Description": "Fighter types who work to protect others.  Also accomplished survivalists.",
     "ModHP": 100,
     "ModStam": -50,
-    "FarmingSkill": -3,
-    "ForageSkill": 4,
-    "FishingSkill": -4,
-    "MiningSkill": "-3",
-    "CombatSkill": "4",
-    "AddFarmingLevel": "0",
-    "AddForageLevel": "1",
-    "AddFishingLevel": "0",
-    "AddMiningLevel": "0",
-    "AddCombatLevel": "3"
+    "FarmingSkill": -3, // not implemented yet
+    "ForageSkill": 4, // not implemented yet
+    "FishingSkill": -4, // not implemented yet
+    "MiningSkill": -3, // not implemented yet
+    "CombatSkill": 4, // not implemented yet
+    "AddFarmingLevel": 0,
+    "AddForagingLevel": 4,
+    "AddFishingLevel": 0,
+    "AddMiningLevel": 0,
+    "AddCombatLevel": 3
   }
 }

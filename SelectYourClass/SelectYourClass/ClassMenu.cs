@@ -58,7 +58,7 @@ namespace SelectYourClass
             public int AddFishingLevel { get; set; }
             public int AddMiningLevel { get; set; }
             public int AddCombatLevel { get; set; }
-
+            
         }
         public ClassMenu(IDataHelper helper, string modBaseDirectory) : base((int)Utility.getTopLeftPositionForCenteringOnScreen(Game1.viewport.Width, Game1.viewport.Height).X, (int)Utility.getTopLeftPositionForCenteringOnScreen(Game1.viewport.Width, Game1.viewport.Height).X, Game1.viewport.Width, Game1.viewport.Height, true)
         {
@@ -95,18 +95,1248 @@ namespace SelectYourClass
             };
 
         }
-        
+        /* This was found to work with CJB Cheats,  I felt that it would be the best way to go about leveling.  Does not work in my context!!
+        private int GetExperiencePoints(int level)
+        {
+            if (level < 0 || level > 9)
+                return 0;
+
+            int[] exp = { 100, 280, 390, 530, 850, 1150, 1500, 2100, 3100, 5000 };
+
+            return exp[level];
+        }*/
+
         public override void receiveLeftClick(int x, int y, bool playSound = true)
         {
             if (this.chooseClass1.containsPoint(x, y))
             {
-                Game1.player.maxHealth = model.Class1.ModHP;
-                Game1.player.health = model.Class1.ModHP;
-                Game1.player.maxStamina.Value = model.Class1.ModStam;
-                Game1.player.stamina = model.Class1.ModStam;
-                
-            }
+               
 
+                Game1.player.maxHealth = Game1.player.maxHealth + model.Class1.ModHP;
+                if (model.Class1.ModHP > 0)
+                {
+                    Game1.player.health = Game1.player.maxHealth + model.Class1.ModHP;
+                }
+                Game1.player.maxStamina.Value = Game1.player.maxStamina.Value + model.Class1.ModStam;
+                if (model.Class1.ModStam > 0)
+                {
+                    Game1.player.stamina = Game1.player.maxStamina.Value + model.Class1.ModStam;
+                }
+                SelectYourClass.Mod.TempMonitor.Log($"Modifying HP {model.Class1.ModHP} HP!  Modifying Stamina {model.Class1.ModStam} Stamina!", LogLevel.Debug);
+                int readfarmlevelups = model.Class1.AddFarmingLevel;
+                int readforagelevelups = model.Class1.AddForagingLevel;
+                int readfishinglevelups = model.Class1.AddFishingLevel;
+                int readmininglevelups = model.Class1.AddMiningLevel;
+                int readcombatlevelups = model.Class1.AddCombatLevel;
+                int farmlvlup = 0;
+                int foragelvlup = 0;
+                int fishinglvlup = 0;
+                int mininglvlup = 0;
+                int combatlvlup = 0;
+                // Farming Level Check ~~
+                if (readfarmlevelups == 1)
+                {
+                    farmlvlup = 100;
+                }
+                else if (readfarmlevelups == 2)
+                {
+                    farmlvlup = 380;
+                }
+                else if (readfarmlevelups == 3)
+                {
+                    farmlvlup = 770;
+                }
+                else if (readfarmlevelups == 4)
+                {
+                    farmlvlup = 1300;
+                }
+                else if (readfarmlevelups == 5)
+                {
+                    farmlvlup = 2150;
+                }
+                else if (readfarmlevelups == 6)
+                {
+                    farmlvlup = 3300;
+                }
+                else if (readfarmlevelups == 7)
+                {
+                    farmlvlup = 4800;
+                }
+                else if (readfarmlevelups == 8)
+                {
+                    farmlvlup = 6900;
+                }
+                else if (readfarmlevelups == 9)
+                {
+                    farmlvlup = 10000;
+                }
+                else if (readfarmlevelups == 10)
+                {
+                    farmlvlup = 15000;
+                }
+                else if (readfarmlevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Farm Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Foraging Level Check ~~
+                if (readforagelevelups == 1)
+                {
+                    foragelvlup = 100;
+                }
+                else if (readforagelevelups == 2)
+                {
+                    foragelvlup = 380;
+                }
+                else if (readforagelevelups == 3)
+                {
+                    foragelvlup = 770;
+                }
+                else if (readforagelevelups == 4)
+                {
+                    foragelvlup = 1300;
+                }
+                else if (readforagelevelups == 5)
+                {
+                    foragelvlup = 2150;
+                }
+                else if (readforagelevelups == 6)
+                {
+                    foragelvlup = 3300;
+                }
+                else if (readforagelevelups == 7)
+                {
+                    foragelvlup = 4800;
+                }
+                else if (readforagelevelups == 8)
+                {
+                    foragelvlup = 6900;
+                }
+                else if (readforagelevelups == 9)
+                {
+                    foragelvlup = 10000;
+                }
+                else if (readforagelevelups == 10)
+                {
+                    foragelvlup = 15000;
+                }
+                else if (readforagelevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Forage Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Fishing Level Check ~~
+                if (readfishinglevelups == 1)
+                {
+                    fishinglvlup = 100;
+                }
+                else if (readfishinglevelups == 2)
+                {
+                    fishinglvlup = 380;
+                }
+                else if (readfishinglevelups == 3)
+                {
+                    fishinglvlup = 770;
+                }
+                else if (readfishinglevelups == 4)
+                {
+                    fishinglvlup = 1300;
+                }
+                else if (readfishinglevelups == 5)
+                {
+                    fishinglvlup = 2150;
+                }
+                else if (readfishinglevelups == 6)
+                {
+                    fishinglvlup = 3300;
+                }
+                else if (readfishinglevelups == 7)
+                {
+                    fishinglvlup = 4800;
+                }
+                else if (readfishinglevelups == 8)
+                {
+                    fishinglvlup = 6900;
+                }
+                else if (readfishinglevelups == 9)
+                {
+                    fishinglvlup = 10000;
+                }
+                else if (readfishinglevelups == 10)
+                {
+                    fishinglvlup = 15000;
+                }
+                else if (readfishinglevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Fishing Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Mining Level Check ~~
+                if (readmininglevelups == 1)
+                {
+                    mininglvlup = 100;
+                }
+                else if (readmininglevelups == 2)
+                {
+                    mininglvlup = 380;
+                }
+                else if (readmininglevelups == 3)
+                {
+                    mininglvlup = 770;
+                }
+                else if (readmininglevelups == 4)
+                {
+                    mininglvlup = 1300;
+                }
+                else if (readmininglevelups == 5)
+                {
+                    mininglvlup = 2150;
+                }
+                else if (readmininglevelups == 6)
+                {
+                    mininglvlup = 3300;
+                }
+                else if (readmininglevelups == 7)
+                {
+                    mininglvlup = 4800;
+                }
+                else if (readmininglevelups == 8)
+                {
+                    mininglvlup = 6900;
+                }
+                else if (readmininglevelups == 9)
+                {
+                    mininglvlup = 10000;
+                }
+                else if (readmininglevelups == 10)
+                {
+                    mininglvlup = 15000;
+                }
+                else if (readmininglevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Mining Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Combat Level Check ~~
+                if (readcombatlevelups == 1)
+                {
+                    combatlvlup = 100;
+                }
+                else if (readcombatlevelups == 2)
+                {
+                    combatlvlup = 380;
+                }
+                else if (readcombatlevelups == 3)
+                {
+                    combatlvlup = 770;
+                }
+                else if (readcombatlevelups == 4)
+                {
+                    combatlvlup = 1300;
+                }
+                else if (readcombatlevelups == 5)
+                {
+                    combatlvlup = 2150;
+                }
+                else if (readcombatlevelups == 6)
+                {
+                    combatlvlup = 3300;
+                }
+                else if (readcombatlevelups == 7)
+                {
+                    combatlvlup = 4800;
+                }
+                else if (readcombatlevelups == 8)
+                {
+                    combatlvlup = 6900;
+                }
+                else if (readcombatlevelups == 9)
+                {
+                    combatlvlup = 10000;
+                }
+                else if (readcombatlevelups == 10)
+                {
+                    combatlvlup = 15000;
+                }
+                else if (readcombatlevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Combat Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+
+                IList<Point> newfarmLevels = Game1.player.newLevels;
+                int wasNewfarmLevels = newfarmLevels.Count;
+                Game1.player.gainExperience(0, farmlvlup);
+                if (newfarmLevels.Count > wasNewfarmLevels)
+                   newfarmLevels.RemoveAt(newfarmLevels.Count - 1);
+
+                IList<Point> newforageLevels = Game1.player.newLevels;
+                int wasNewforageLevels = newforageLevels.Count;
+                Game1.player.gainExperience(2, foragelvlup);
+                SelectYourClass.Mod.TempMonitor.Log($"Adding {foragelvlup} foraging XP", LogLevel.Debug);
+                if (newforageLevels.Count > wasNewforageLevels)
+                    newforageLevels.RemoveAt(newforageLevels.Count - 1);
+
+                IList<Point> newfishingLevels = Game1.player.newLevels;
+                int wasNewfishingLevels = newfishingLevels.Count;
+                Game1.player.gainExperience(1, fishinglvlup);
+                if (newfishingLevels.Count > wasNewfishingLevels)
+                    newfishingLevels.RemoveAt(newfishingLevels.Count - 1);
+
+                IList<Point> newminingLevels = Game1.player.newLevels;
+                int wasNewminingLevels = newminingLevels.Count;
+                Game1.player.gainExperience(3, mininglvlup);
+                if (newminingLevels.Count > wasNewminingLevels)
+                    newminingLevels.RemoveAt(newminingLevels.Count - 1);
+
+                IList<Point> newcombatLevels = Game1.player.newLevels;
+                int wasNewcombatLevels = newcombatLevels.Count;
+                Game1.player.gainExperience(4, combatlvlup);
+                if (newcombatLevels.Count > wasNewcombatLevels)
+                    newcombatLevels.RemoveAt(newcombatLevels.Count - 1);
+
+
+                Game1.addHUDMessage(new HUDMessage($"{Game1.player} has selected {model.Class1.Name}"));
+                
+                Game1.exitActiveMenu();
+            }
+            if (this.chooseClass2.containsPoint(x, y))
+            {
+
+
+                Game1.player.maxHealth = Game1.player.maxHealth + model.Class2.ModHP;
+                if (model.Class2.ModHP > 0)
+                {
+                    Game1.player.health = Game1.player.maxHealth + model.Class2.ModHP;
+                }
+                Game1.player.maxStamina.Value = Game1.player.maxStamina.Value + model.Class2.ModStam;
+                if (model.Class2.ModStam > 0)
+                {
+                    Game1.player.stamina = Game1.player.maxStamina.Value + model.Class2.ModStam;
+                }
+                SelectYourClass.Mod.TempMonitor.Log($"Modifying HP {model.Class2.ModHP} HP!  Modifying Stamina {model.Class2.ModStam} Stamina!", LogLevel.Debug);
+                int readfarmlevelups = model.Class2.AddFarmingLevel;
+                int readforagelevelups = model.Class2.AddForagingLevel;
+                int readfishinglevelups = model.Class2.AddFishingLevel;
+                int readmininglevelups = model.Class2.AddMiningLevel;
+                int readcombatlevelups = model.Class2.AddCombatLevel;
+                int farmlvlup = 0;
+                int foragelvlup = 0;
+                int fishinglvlup = 0;
+                int mininglvlup = 0;
+                int combatlvlup = 0;
+                // Farming Level Check ~~
+                if (readfarmlevelups == 1)
+                {
+                    farmlvlup = 100;
+                }
+                else if (readfarmlevelups == 2)
+                {
+                    farmlvlup = 380;
+                }
+                else if (readfarmlevelups == 3)
+                {
+                    farmlvlup = 770;
+                }
+                else if (readfarmlevelups == 4)
+                {
+                    farmlvlup = 1300;
+                }
+                else if (readfarmlevelups == 5)
+                {
+                    farmlvlup = 2150;
+                }
+                else if (readfarmlevelups == 6)
+                {
+                    farmlvlup = 3300;
+                }
+                else if (readfarmlevelups == 7)
+                {
+                    farmlvlup = 4800;
+                }
+                else if (readfarmlevelups == 8)
+                {
+                    farmlvlup = 6900;
+                }
+                else if (readfarmlevelups == 9)
+                {
+                    farmlvlup = 10000;
+                }
+                else if (readfarmlevelups == 10)
+                {
+                    farmlvlup = 15000;
+                }
+                else if (readfarmlevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Farm Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Foraging Level Check ~~
+                if (readforagelevelups == 1)
+                {
+                    foragelvlup = 100;
+                }
+                else if (readforagelevelups == 2)
+                {
+                    foragelvlup = 380;
+                }
+                else if (readforagelevelups == 3)
+                {
+                    foragelvlup = 770;
+                }
+                else if (readforagelevelups == 4)
+                {
+                    foragelvlup = 1300;
+                }
+                else if (readforagelevelups == 5)
+                {
+                    foragelvlup = 2150;
+                }
+                else if (readforagelevelups == 6)
+                {
+                    foragelvlup = 3300;
+                }
+                else if (readforagelevelups == 7)
+                {
+                    foragelvlup = 4800;
+                }
+                else if (readforagelevelups == 8)
+                {
+                    foragelvlup = 6900;
+                }
+                else if (readforagelevelups == 9)
+                {
+                    foragelvlup = 10000;
+                }
+                else if (readforagelevelups == 10)
+                {
+                    foragelvlup = 15000;
+                }
+                else if (readforagelevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Forage Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Fishing Level Check ~~
+                if (readfishinglevelups == 1)
+                {
+                    fishinglvlup = 100;
+                }
+                else if (readfishinglevelups == 2)
+                {
+                    fishinglvlup = 380;
+                }
+                else if (readfishinglevelups == 3)
+                {
+                    fishinglvlup = 770;
+                }
+                else if (readfishinglevelups == 4)
+                {
+                    fishinglvlup = 1300;
+                }
+                else if (readfishinglevelups == 5)
+                {
+                    fishinglvlup = 2150;
+                }
+                else if (readfishinglevelups == 6)
+                {
+                    fishinglvlup = 3300;
+                }
+                else if (readfishinglevelups == 7)
+                {
+                    fishinglvlup = 4800;
+                }
+                else if (readfishinglevelups == 8)
+                {
+                    fishinglvlup = 6900;
+                }
+                else if (readfishinglevelups == 9)
+                {
+                    fishinglvlup = 10000;
+                }
+                else if (readfishinglevelups == 10)
+                {
+                    fishinglvlup = 15000;
+                }
+                else if (readfishinglevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Fishing Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Mining Level Check ~~
+                if (readmininglevelups == 1)
+                {
+                    mininglvlup = 100;
+                }
+                else if (readmininglevelups == 2)
+                {
+                    mininglvlup = 380;
+                }
+                else if (readmininglevelups == 3)
+                {
+                    mininglvlup = 770;
+                }
+                else if (readmininglevelups == 4)
+                {
+                    mininglvlup = 1300;
+                }
+                else if (readmininglevelups == 5)
+                {
+                    mininglvlup = 2150;
+                }
+                else if (readmininglevelups == 6)
+                {
+                    mininglvlup = 3300;
+                }
+                else if (readmininglevelups == 7)
+                {
+                    mininglvlup = 4800;
+                }
+                else if (readmininglevelups == 8)
+                {
+                    mininglvlup = 6900;
+                }
+                else if (readmininglevelups == 9)
+                {
+                    mininglvlup = 10000;
+                }
+                else if (readmininglevelups == 10)
+                {
+                    mininglvlup = 15000;
+                }
+                else if (readmininglevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Mining Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Combat Level Check ~~
+                if (readcombatlevelups == 1)
+                {
+                    combatlvlup = 100;
+                }
+                else if (readcombatlevelups == 2)
+                {
+                    combatlvlup = 380;
+                }
+                else if (readcombatlevelups == 3)
+                {
+                    combatlvlup = 770;
+                }
+                else if (readcombatlevelups == 4)
+                {
+                    combatlvlup = 1300;
+                }
+                else if (readcombatlevelups == 5)
+                {
+                    combatlvlup = 2150;
+                }
+                else if (readcombatlevelups == 6)
+                {
+                    combatlvlup = 3300;
+                }
+                else if (readcombatlevelups == 7)
+                {
+                    combatlvlup = 4800;
+                }
+                else if (readcombatlevelups == 8)
+                {
+                    combatlvlup = 6900;
+                }
+                else if (readcombatlevelups == 9)
+                {
+                    combatlvlup = 10000;
+                }
+                else if (readcombatlevelups == 10)
+                {
+                    combatlvlup = 15000;
+                }
+                else if (readcombatlevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Combat Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+
+                IList<Point> newfarmLevels = Game1.player.newLevels;
+                int wasNewfarmLevels = newfarmLevels.Count;
+                Game1.player.gainExperience(0, farmlvlup);
+                if (newfarmLevels.Count > wasNewfarmLevels)
+                    newfarmLevels.RemoveAt(newfarmLevels.Count - 1);
+
+                IList<Point> newforageLevels = Game1.player.newLevels;
+                int wasNewforageLevels = newforageLevels.Count;
+                Game1.player.gainExperience(2, foragelvlup);
+                SelectYourClass.Mod.TempMonitor.Log($"Adding {foragelvlup} foraging XP", LogLevel.Debug);
+                if (newforageLevels.Count > wasNewforageLevels)
+                    newforageLevels.RemoveAt(newforageLevels.Count - 1);
+
+                IList<Point> newfishingLevels = Game1.player.newLevels;
+                int wasNewfishingLevels = newfishingLevels.Count;
+                Game1.player.gainExperience(1, fishinglvlup);
+                if (newfishingLevels.Count > wasNewfishingLevels)
+                    newfishingLevels.RemoveAt(newfishingLevels.Count - 1);
+
+                IList<Point> newminingLevels = Game1.player.newLevels;
+                int wasNewminingLevels = newminingLevels.Count;
+                Game1.player.gainExperience(3, mininglvlup);
+                if (newminingLevels.Count > wasNewminingLevels)
+                    newminingLevels.RemoveAt(newminingLevels.Count - 1);
+
+                IList<Point> newcombatLevels = Game1.player.newLevels;
+                int wasNewcombatLevels = newcombatLevels.Count;
+                Game1.player.gainExperience(4, combatlvlup);
+                if (newcombatLevels.Count > wasNewcombatLevels)
+                    newcombatLevels.RemoveAt(newcombatLevels.Count - 1);
+
+
+                Game1.addHUDMessage(new HUDMessage($"{Game1.player} has selected {model.Class2.Name}"));
+                Game1.exitActiveMenu();
+            }
+            if (this.chooseClass3.containsPoint(x, y))
+            {
+
+
+                Game1.player.maxHealth = Game1.player.maxHealth + model.Class3.ModHP;
+                if (model.Class3.ModHP > 0)
+                {
+                    Game1.player.health = Game1.player.maxHealth + model.Class3.ModHP;
+                }
+                Game1.player.maxStamina.Value = Game1.player.maxStamina.Value + model.Class3.ModStam;
+                if (model.Class3.ModStam > 0)
+                {
+                    Game1.player.stamina = Game1.player.maxStamina.Value + model.Class3.ModStam;
+                }
+                SelectYourClass.Mod.TempMonitor.Log($"Modifying HP {model.Class3.ModHP} HP!  Modifying Stamina {model.Class3.ModStam} Stamina!", LogLevel.Debug);
+                int readfarmlevelups = model.Class3.AddFarmingLevel;
+                int readforagelevelups = model.Class3.AddForagingLevel;
+                int readfishinglevelups = model.Class3.AddFishingLevel;
+                int readmininglevelups = model.Class3.AddMiningLevel;
+                int readcombatlevelups = model.Class3.AddCombatLevel;
+                int farmlvlup = 0;
+                int foragelvlup = 0;
+                int fishinglvlup = 0;
+                int mininglvlup = 0;
+                int combatlvlup = 0;
+                // Farming Level Check ~~
+                if (readfarmlevelups == 1)
+                {
+                    farmlvlup = 100;
+                }
+                else if (readfarmlevelups == 2)
+                {
+                    farmlvlup = 380;
+                }
+                else if (readfarmlevelups == 3)
+                {
+                    farmlvlup = 770;
+                }
+                else if (readfarmlevelups == 4)
+                {
+                    farmlvlup = 1300;
+                }
+                else if (readfarmlevelups == 5)
+                {
+                    farmlvlup = 2150;
+                }
+                else if (readfarmlevelups == 6)
+                {
+                    farmlvlup = 3300;
+                }
+                else if (readfarmlevelups == 7)
+                {
+                    farmlvlup = 4800;
+                }
+                else if (readfarmlevelups == 8)
+                {
+                    farmlvlup = 6900;
+                }
+                else if (readfarmlevelups == 9)
+                {
+                    farmlvlup = 10000;
+                }
+                else if (readfarmlevelups == 10)
+                {
+                    farmlvlup = 15000;
+                }
+                else if (readfarmlevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Farm Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Foraging Level Check ~~
+                if (readforagelevelups == 1)
+                {
+                    foragelvlup = 100;
+                }
+                else if (readforagelevelups == 2)
+                {
+                    foragelvlup = 380;
+                }
+                else if (readforagelevelups == 3)
+                {
+                    foragelvlup = 770;
+                }
+                else if (readforagelevelups == 4)
+                {
+                    foragelvlup = 1300;
+                }
+                else if (readforagelevelups == 5)
+                {
+                    foragelvlup = 2150;
+                }
+                else if (readforagelevelups == 6)
+                {
+                    foragelvlup = 3300;
+                }
+                else if (readforagelevelups == 7)
+                {
+                    foragelvlup = 4800;
+                }
+                else if (readforagelevelups == 8)
+                {
+                    foragelvlup = 6900;
+                }
+                else if (readforagelevelups == 9)
+                {
+                    foragelvlup = 10000;
+                }
+                else if (readforagelevelups == 10)
+                {
+                    foragelvlup = 15000;
+                }
+                else if (readforagelevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Forage Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Fishing Level Check ~~
+                if (readfishinglevelups == 1)
+                {
+                    fishinglvlup = 100;
+                }
+                else if (readfishinglevelups == 2)
+                {
+                    fishinglvlup = 380;
+                }
+                else if (readfishinglevelups == 3)
+                {
+                    fishinglvlup = 770;
+                }
+                else if (readfishinglevelups == 4)
+                {
+                    fishinglvlup = 1300;
+                }
+                else if (readfishinglevelups == 5)
+                {
+                    fishinglvlup = 2150;
+                }
+                else if (readfishinglevelups == 6)
+                {
+                    fishinglvlup = 3300;
+                }
+                else if (readfishinglevelups == 7)
+                {
+                    fishinglvlup = 4800;
+                }
+                else if (readfishinglevelups == 8)
+                {
+                    fishinglvlup = 6900;
+                }
+                else if (readfishinglevelups == 9)
+                {
+                    fishinglvlup = 10000;
+                }
+                else if (readfishinglevelups == 10)
+                {
+                    fishinglvlup = 15000;
+                }
+                else if (readfishinglevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Fishing Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Mining Level Check ~~
+                if (readmininglevelups == 1)
+                {
+                    mininglvlup = 100;
+                }
+                else if (readmininglevelups == 2)
+                {
+                    mininglvlup = 380;
+                }
+                else if (readmininglevelups == 3)
+                {
+                    mininglvlup = 770;
+                }
+                else if (readmininglevelups == 4)
+                {
+                    mininglvlup = 1300;
+                }
+                else if (readmininglevelups == 5)
+                {
+                    mininglvlup = 2150;
+                }
+                else if (readmininglevelups == 6)
+                {
+                    mininglvlup = 3300;
+                }
+                else if (readmininglevelups == 7)
+                {
+                    mininglvlup = 4800;
+                }
+                else if (readmininglevelups == 8)
+                {
+                    mininglvlup = 6900;
+                }
+                else if (readmininglevelups == 9)
+                {
+                    mininglvlup = 10000;
+                }
+                else if (readmininglevelups == 10)
+                {
+                    mininglvlup = 15000;
+                }
+                else if (readmininglevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Mining Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Combat Level Check ~~
+                if (readcombatlevelups == 1)
+                {
+                    combatlvlup = 100;
+                }
+                else if (readcombatlevelups == 2)
+                {
+                    combatlvlup = 380;
+                }
+                else if (readcombatlevelups == 3)
+                {
+                    combatlvlup = 770;
+                }
+                else if (readcombatlevelups == 4)
+                {
+                    combatlvlup = 1300;
+                }
+                else if (readcombatlevelups == 5)
+                {
+                    combatlvlup = 2150;
+                }
+                else if (readcombatlevelups == 6)
+                {
+                    combatlvlup = 3300;
+                }
+                else if (readcombatlevelups == 7)
+                {
+                    combatlvlup = 4800;
+                }
+                else if (readcombatlevelups == 8)
+                {
+                    combatlvlup = 6900;
+                }
+                else if (readcombatlevelups == 9)
+                {
+                    combatlvlup = 10000;
+                }
+                else if (readcombatlevelups == 10)
+                {
+                    combatlvlup = 15000;
+                }
+                else if (readcombatlevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Combat Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+
+                IList<Point> newfarmLevels = Game1.player.newLevels;
+                int wasNewfarmLevels = newfarmLevels.Count;
+                Game1.player.gainExperience(0, farmlvlup);
+                if (newfarmLevels.Count > wasNewfarmLevels)
+                    newfarmLevels.RemoveAt(newfarmLevels.Count - 1);
+
+                IList<Point> newforageLevels = Game1.player.newLevels;
+                int wasNewforageLevels = newforageLevels.Count;
+                Game1.player.gainExperience(2, foragelvlup);
+                SelectYourClass.Mod.TempMonitor.Log($"Adding {foragelvlup} foraging XP", LogLevel.Debug);
+                if (newforageLevels.Count > wasNewforageLevels)
+                    newforageLevels.RemoveAt(newforageLevels.Count - 1);
+
+                IList<Point> newfishingLevels = Game1.player.newLevels;
+                int wasNewfishingLevels = newfishingLevels.Count;
+                Game1.player.gainExperience(1, fishinglvlup);
+                if (newfishingLevels.Count > wasNewfishingLevels)
+                    newfishingLevels.RemoveAt(newfishingLevels.Count - 1);
+
+                IList<Point> newminingLevels = Game1.player.newLevels;
+                int wasNewminingLevels = newminingLevels.Count;
+                Game1.player.gainExperience(3, mininglvlup);
+                if (newminingLevels.Count > wasNewminingLevels)
+                    newminingLevels.RemoveAt(newminingLevels.Count - 1);
+
+                IList<Point> newcombatLevels = Game1.player.newLevels;
+                int wasNewcombatLevels = newcombatLevels.Count;
+                Game1.player.gainExperience(4, combatlvlup);
+                if (newcombatLevels.Count > wasNewcombatLevels)
+                    newcombatLevels.RemoveAt(newcombatLevels.Count - 1);
+
+
+                Game1.addHUDMessage(new HUDMessage($"{Game1.player} has selected {model.Class3.Name}"));
+                Game1.exitActiveMenu();
+            }
+            if (this.chooseClass4.containsPoint(x, y))
+            {
+
+
+                Game1.player.maxHealth = Game1.player.maxHealth + model.Class4.ModHP;
+                if (model.Class4.ModHP > 0)
+                {
+                    Game1.player.health = Game1.player.maxHealth + model.Class4.ModHP;
+                }
+                Game1.player.maxStamina.Value = Game1.player.maxStamina.Value + model.Class4.ModStam;
+                if (model.Class4.ModStam > 0)
+                {
+                    Game1.player.stamina = Game1.player.maxStamina.Value + model.Class4.ModStam;
+                }
+                SelectYourClass.Mod.TempMonitor.Log($"Modifying HP {model.Class4.ModHP} HP!  Modifying Stamina {model.Class4.ModStam} Stamina!", LogLevel.Debug);
+                int readfarmlevelups = model.Class4.AddFarmingLevel;
+                int readforagelevelups = model.Class4.AddForagingLevel;
+                int readfishinglevelups = model.Class4.AddFishingLevel;
+                int readmininglevelups = model.Class4.AddMiningLevel;
+                int readcombatlevelups = model.Class4.AddCombatLevel;
+                int farmlvlup = 0;
+                int foragelvlup = 0;
+                int fishinglvlup = 0;
+                int mininglvlup = 0;
+                int combatlvlup = 0;
+                // Farming Level Check ~~
+                if (readfarmlevelups == 1)
+                {
+                    farmlvlup = 100;
+                }
+                else if (readfarmlevelups == 2)
+                {
+                    farmlvlup = 380;
+                }
+                else if (readfarmlevelups == 3)
+                {
+                    farmlvlup = 770;
+                }
+                else if (readfarmlevelups == 4)
+                {
+                    farmlvlup = 1300;
+                }
+                else if (readfarmlevelups == 5)
+                {
+                    farmlvlup = 2150;
+                }
+                else if (readfarmlevelups == 6)
+                {
+                    farmlvlup = 3300;
+                }
+                else if (readfarmlevelups == 7)
+                {
+                    farmlvlup = 4800;
+                }
+                else if (readfarmlevelups == 8)
+                {
+                    farmlvlup = 6900;
+                }
+                else if (readfarmlevelups == 9)
+                {
+                    farmlvlup = 10000;
+                }
+                else if (readfarmlevelups == 10)
+                {
+                    farmlvlup = 15000;
+                }
+                else if (readfarmlevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Farm Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Foraging Level Check ~~
+                if (readforagelevelups == 1)
+                {
+                    foragelvlup = 100;
+                }
+                else if (readforagelevelups == 2)
+                {
+                    foragelvlup = 380;
+                }
+                else if (readforagelevelups == 3)
+                {
+                    foragelvlup = 770;
+                }
+                else if (readforagelevelups == 4)
+                {
+                    foragelvlup = 1300;
+                }
+                else if (readforagelevelups == 5)
+                {
+                    foragelvlup = 2150;
+                }
+                else if (readforagelevelups == 6)
+                {
+                    foragelvlup = 3300;
+                }
+                else if (readforagelevelups == 7)
+                {
+                    foragelvlup = 4800;
+                }
+                else if (readforagelevelups == 8)
+                {
+                    foragelvlup = 6900;
+                }
+                else if (readforagelevelups == 9)
+                {
+                    foragelvlup = 10000;
+                }
+                else if (readforagelevelups == 10)
+                {
+                    foragelvlup = 15000;
+                }
+                else if (readforagelevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Forage Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Fishing Level Check ~~
+                if (readfishinglevelups == 1)
+                {
+                    fishinglvlup = 100;
+                }
+                else if (readfishinglevelups == 2)
+                {
+                    fishinglvlup = 380;
+                }
+                else if (readfishinglevelups == 3)
+                {
+                    fishinglvlup = 770;
+                }
+                else if (readfishinglevelups == 4)
+                {
+                    fishinglvlup = 1300;
+                }
+                else if (readfishinglevelups == 5)
+                {
+                    fishinglvlup = 2150;
+                }
+                else if (readfishinglevelups == 6)
+                {
+                    fishinglvlup = 3300;
+                }
+                else if (readfishinglevelups == 7)
+                {
+                    fishinglvlup = 4800;
+                }
+                else if (readfishinglevelups == 8)
+                {
+                    fishinglvlup = 6900;
+                }
+                else if (readfishinglevelups == 9)
+                {
+                    fishinglvlup = 10000;
+                }
+                else if (readfishinglevelups == 10)
+                {
+                    fishinglvlup = 15000;
+                }
+                else if (readfishinglevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Fishing Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Mining Level Check ~~
+                if (readmininglevelups == 1)
+                {
+                    mininglvlup = 100;
+                }
+                else if (readmininglevelups == 2)
+                {
+                    mininglvlup = 380;
+                }
+                else if (readmininglevelups == 3)
+                {
+                    mininglvlup = 770;
+                }
+                else if (readmininglevelups == 4)
+                {
+                    mininglvlup = 1300;
+                }
+                else if (readmininglevelups == 5)
+                {
+                    mininglvlup = 2150;
+                }
+                else if (readmininglevelups == 6)
+                {
+                    mininglvlup = 3300;
+                }
+                else if (readmininglevelups == 7)
+                {
+                    mininglvlup = 4800;
+                }
+                else if (readmininglevelups == 8)
+                {
+                    mininglvlup = 6900;
+                }
+                else if (readmininglevelups == 9)
+                {
+                    mininglvlup = 10000;
+                }
+                else if (readmininglevelups == 10)
+                {
+                    mininglvlup = 15000;
+                }
+                else if (readmininglevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Mining Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+                // Combat Level Check ~~
+                if (readcombatlevelups == 1)
+                {
+                    combatlvlup = 100;
+                }
+                else if (readcombatlevelups == 2)
+                {
+                    combatlvlup = 380;
+                }
+                else if (readcombatlevelups == 3)
+                {
+                    combatlvlup = 770;
+                }
+                else if (readcombatlevelups == 4)
+                {
+                    combatlvlup = 1300;
+                }
+                else if (readcombatlevelups == 5)
+                {
+                    combatlvlup = 2150;
+                }
+                else if (readcombatlevelups == 6)
+                {
+                    combatlvlup = 3300;
+                }
+                else if (readcombatlevelups == 7)
+                {
+                    combatlvlup = 4800;
+                }
+                else if (readcombatlevelups == 8)
+                {
+                    combatlvlup = 6900;
+                }
+                else if (readcombatlevelups == 9)
+                {
+                    combatlvlup = 10000;
+                }
+                else if (readcombatlevelups == 10)
+                {
+                    combatlvlup = 15000;
+                }
+                else if (readcombatlevelups == 0)
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Class gains no Combat Levels!", LogLevel.Debug);
+                }
+                else
+                {
+                    SelectYourClass.Mod.TempMonitor.Log("Invalid level count added!  Valid entries are 0 through 10", LogLevel.Error);
+                }
+
+                IList<Point> newfarmLevels = Game1.player.newLevels;
+                int wasNewfarmLevels = newfarmLevels.Count;
+                Game1.player.gainExperience(0, farmlvlup);
+                if (newfarmLevels.Count > wasNewfarmLevels)
+                    newfarmLevels.RemoveAt(newfarmLevels.Count - 1);
+
+                IList<Point> newforageLevels = Game1.player.newLevels;
+                int wasNewforageLevels = newforageLevels.Count;
+                Game1.player.gainExperience(2, foragelvlup);                
+                if (newforageLevels.Count > wasNewforageLevels)
+                    newforageLevels.RemoveAt(newforageLevels.Count - 1);
+
+                IList<Point> newfishingLevels = Game1.player.newLevels;
+                int wasNewfishingLevels = newfishingLevels.Count;
+                Game1.player.gainExperience(1, fishinglvlup);
+                if (newfishingLevels.Count > wasNewfishingLevels)
+                    newfishingLevels.RemoveAt(newfishingLevels.Count - 1);
+
+                IList<Point> newminingLevels = Game1.player.newLevels;
+                int wasNewminingLevels = newminingLevels.Count;
+                Game1.player.gainExperience(3, mininglvlup);
+                if (newminingLevels.Count > wasNewminingLevels)
+                    newminingLevels.RemoveAt(newminingLevels.Count - 1);
+
+                IList<Point> newcombatLevels = Game1.player.newLevels;
+                int wasNewcombatLevels = newcombatLevels.Count;
+                Game1.player.gainExperience(4, combatlvlup);
+                if (newcombatLevels.Count > wasNewcombatLevels)
+                    newcombatLevels.RemoveAt(newcombatLevels.Count - 1);
+
+
+                Game1.addHUDMessage(new HUDMessage($"{Game1.player} has selected {model.Class4.Name}"));
+                Game1.exitActiveMenu();
+            }
+            if (this.chooseNone.containsPoint(x, y))
+            {
+                Game1.addHUDMessage(new HUDMessage($"{Game1.player} chose not to select a Class!"));
+                Game1.exitActiveMenu();
+            }
         }
         public override void gameWindowSizeChanged(Rectangle oldBounds, Rectangle newBounds)
         {
