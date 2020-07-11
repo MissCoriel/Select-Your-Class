@@ -6,6 +6,7 @@ using StardewValley.Menus;
 using StardewModdingAPI.Utilities;
 using System;
 using System.Collections.Generic;
+using StardewValley.Events;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,14 +26,6 @@ namespace SelectYourClass
         public ClickableTextureComponent chooseNone;
         public static string modDirectory;
         public SettingsModel model;
-        public string className1;
-        public string classDesc1;
-        public string className2;
-        public string classDesc2;
-        public string className3;
-        public string classDesc3;
-        public string className4;
-        public string classDesc4;
 
 
         internal class SettingsModel
@@ -111,7 +104,10 @@ namespace SelectYourClass
             if (this.chooseClass1.containsPoint(x, y))
             {
                
-
+                if (Context.IsMainPlayer)
+                {
+                    SelectYourClass.Mod.Saving.Data.WriteSaveData("host-job", model.Class1.Name);
+                }
                 Game1.player.maxHealth = Game1.player.maxHealth + model.Class1.ModHP;
                 if (model.Class1.ModHP > 0)
                 {
