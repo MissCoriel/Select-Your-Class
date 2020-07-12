@@ -26,6 +26,8 @@ namespace SelectYourClass
         public ClickableTextureComponent chooseNone;
         public static string modDirectory;
         public SettingsModel model;
+        public static string classCheck;
+        
 
 
         internal class SettingsModel
@@ -106,7 +108,11 @@ namespace SelectYourClass
                
                 if (Context.IsMainPlayer)
                 {
-                    SelectYourClass.Mod.Saving.Data.WriteSaveData("host-job", model.Class1.Name);
+                    string selectedClass = model.Class1.Name;
+                    SelectYourClass.Mod.TempMonitor.Log($"Chosen Class: {selectedClass}", LogLevel.Debug);
+                    ClassMenu.classCheck = selectedClass;
+                    Mod.Saving.Data.WriteSaveData("ClassChosen", new SaveModel { chosenClass = selectedClass });
+                    SelectYourClass.Mod.TempMonitor.Log($"Save as {selectedClass}", LogLevel.Debug);
                 }
                 Game1.player.maxHealth = Game1.player.maxHealth + model.Class1.ModHP;
                 if (model.Class1.ModHP > 0)

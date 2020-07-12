@@ -8,6 +8,8 @@ using StardewValley;
 using Newtonsoft.Json;
 using StardewModdingAPI.Events;
 using System.Security.AccessControl;
+using System.Net;
+using System.Runtime.Remoting.Channels;
 
 namespace SelectYourClass
 {
@@ -15,7 +17,8 @@ namespace SelectYourClass
     {
         public static bool choseClass = false;
         internal static IMonitor TempMonitor;
-        private JobModel Job = null;
+        private SaveModel classSelect = null;
+        public static string classCheck;
         private bool IsFetchingJobFromHost = false;
         internal static IModHelper Saving;
         internal class RequestClassMessage
@@ -26,7 +29,7 @@ namespace SelectYourClass
         internal class ClassInfoMessage
         {
             public int PlayerId { get; set; }
-            public JobModel Job { get; set; }
+            public SaveModel chosenClass { get; set; }
         }
 
         public override void Entry(IModHelper helper)
@@ -37,21 +40,56 @@ namespace SelectYourClass
             helper.Events.GameLoop.SaveLoaded += this.SaveLoaded;
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
             helper.Events.Multiplayer.ModMessageReceived += this.OnModMessageReceived;
+            helper.Events.GameLoop.Saving += this.OnSaving;
+        }
+        public void OnSaving(object sender, SavingEventArgs e)
+        {
+            if (classCheck != null)
+            {
+                this.Helper.Data.WriteSaveData("")
+            }
         }
         public void SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
             if (Context.IsMainPlayer)
-            {
-                this.Job = this.Helper.Data.ReadSaveData<JobModel>("host-job");
-                if (this.Job == null)
+            {   
+                try
                 {
-                    if (Game1.activeClickableMenu == null)
+                    var checkClass = this.Helper.Data.ReadSaveData<SaveModel>("ClassChosen");
+                    if(checkClass == null || checkClass.chosenClass == null)
                     {
-                        Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
-                        
+                        classCheck = "Not Selected";
+                        Monitor.Log("No data found!", LogLevel.Debug);
+                    }
+                    else
+                    {
+                        classCheck = checkClass.chosenClass;
+                        Monitor.Log($"Data found! Your class: {classCheck}", LogLevel.Debug);
                     }
 
+
                 }
+                catch (Exception) { }
+
+
+
+
+
+               /* if (this.chosenClass == null)
+                {
+                    classCheck = ClassMenu.classCheck;
+                    Monitor.Log($"Checking Class: {classCheck}", LogLevel.Debug);
+                    if (classCheck == null)
+                    {
+                        if (Game1.activeClickableMenu == null)
+                        {
+                            Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
+
+                        }
+
+                    }
+
+                }*/
             }
                 
             else
@@ -71,11 +109,21 @@ namespace SelectYourClass
         }
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            if (Context.IsPlayerFree && this.Job == null && !this.IsFetchingJobFromHost)
+            classCheck = ClassMenu.classCheck;
+            if (classCheck == null)
+            {
+                classCheck = "Not Selected";
+            }
+            if (Context.IsMainPlayer && classCheck == "Not Selected" && Game1.activeClickableMenu == null)
+            {
+                Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
+            }
+
+            /*if (Context.IsPlayerFree && this.chosenClass == null && !this.IsFetchingJobFromHost)
             {
                 Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
                 // TODO: save selected class to this.Job when the menu closes
-            }
+            }*/
         }
 
         private void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
@@ -89,8 +137,8 @@ namespace SelectYourClass
                         if (Context.IsMainPlayer)
                         {
                             var message = e.ReadAs<RequestClassMessage>();
-                            var job = this.Helper.Data.ReadSaveData<JobModel>($"job.{message.PlayerId}");
-                            this.Helper.Multiplayer.SendMessage(new ClassInfoMessage { PlayerId = message.PlayerId, Job = job }, nameof(ClassInfoMessage), playerIDs: new[] { e.FromPlayerID });
+                            var job = this.Helper.Data.ReadSaveData<SaveModel>($"job.{message.PlayerId}");
+                            this.Helper.Multiplayer.SendMessage(new ClassInfoMessage { PlayerId = message.PlayerId, chosenClass = job }, nameof(ClassInfoMessage), playerIDs: new[] { e.FromPlayerID });
                         }
                         break;
                 
@@ -100,7 +148,7 @@ namespace SelectYourClass
                         if (!Context.IsMainPlayer)
                         {
                             var message = e.ReadAs<ClassInfoMessage>();
-                            this.Job = message.Job;
+                            classSelect = message.chosenClass;
                             this.IsFetchingJobFromHost = false;
                         }
                         break;
