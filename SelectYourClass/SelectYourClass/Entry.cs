@@ -21,6 +21,7 @@ namespace SelectYourClass
         public static string classCheck;
         private bool IsFetchingJobFromHost = false;
         internal static IModHelper Saving;
+        public static string FarmHandClass;
         internal class RequestClassMessage
         {
             public int PlayerId { get; set; }
@@ -40,14 +41,6 @@ namespace SelectYourClass
             helper.Events.GameLoop.SaveLoaded += this.SaveLoaded;
             helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
             helper.Events.Multiplayer.ModMessageReceived += this.OnModMessageReceived;
-            helper.Events.GameLoop.Saving += this.OnSaving;
-        }
-        public void OnSaving(object sender, SavingEventArgs e)
-        {
-            if (classCheck != null)
-            {
-                this.Helper.Data.WriteSaveData("")
-            }
         }
         public void SaveLoaded(object sender, SaveLoadedEventArgs e)
         {
@@ -56,8 +49,9 @@ namespace SelectYourClass
                 try
                 {
                     var checkClass = this.Helper.Data.ReadSaveData<SaveModel>("ClassChosen");
-                    if(checkClass == null || checkClass.chosenClass == null)
+                    if (checkClass == null)
                     {
+                        
                         classCheck = "Not Selected";
                         Monitor.Log("No data found!", LogLevel.Debug);
                     }
@@ -70,26 +64,6 @@ namespace SelectYourClass
 
                 }
                 catch (Exception) { }
-
-
-
-
-
-               /* if (this.chosenClass == null)
-                {
-                    classCheck = ClassMenu.classCheck;
-                    Monitor.Log($"Checking Class: {classCheck}", LogLevel.Debug);
-                    if (classCheck == null)
-                    {
-                        if (Game1.activeClickableMenu == null)
-                        {
-                            Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
-
-                        }
-
-                    }
-
-                }*/
             }
                 
             else
@@ -97,33 +71,33 @@ namespace SelectYourClass
                 this.IsFetchingJobFromHost = true;
                 this.Helper.Multiplayer.SendMessage(new RequestClassMessage { PlayerId = (int)Game1.player.uniqueMultiplayerID }, nameof(RequestClassMessage), playerIDs: new[] { Game1.MasterPlayer.UniqueMultiplayerID });
             }
-            
-            
-
-                /*if (Game1.activeClickableMenu == null)
-                {
-                    Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
-                    choseClass = true;
-                }*/
-            
         }
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            classCheck = ClassMenu.classCheck;
-            if (classCheck == null)
+            if (!Context.IsMainPlayer) return;
+            if (ClassMenu.classCheck != null)
             {
-                classCheck = "Not Selected";
+                classCheck = ClassMenu.classCheck;
             }
-            if (Context.IsMainPlayer && classCheck == "Not Selected" && Game1.activeClickableMenu == null)
+
+            if (classCheck == "Not Selected" && Game1.activeClickableMenu == null)
             {
                 Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
             }
 
-            /*if (Context.IsPlayerFree && this.chosenClass == null && !this.IsFetchingJobFromHost)
+            if (!Context.IsMainPlayer && FarmHandClass == "Not Selected" && !this.IsFetchingJobFromHost)
             {
                 Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
+                Monitor.Log("This happened for farmhand", LogLevel.Debug);
                 // TODO: save selected class to this.Job when the menu closes
-            }*/
+            }
+            if (!Context.IsMainPlayer && FarmHandClass == null && !this.IsFetchingJobFromHost)
+            {
+                Game1.activeClickableMenu = new ClassMenu(this.Helper.Data, this.Helper.DirectoryPath);
+                Monitor.Log("This happened for farmhand", LogLevel.Debug);
+                // TODO: save selected class to this.Job when the menu closes
+            }
+
         }
 
         private void OnModMessageReceived(object sender, ModMessageReceivedEventArgs e)
@@ -136,19 +110,52 @@ namespace SelectYourClass
                     case nameof(RequestClassMessage):
                         if (Context.IsMainPlayer)
                         {
-                            var message = e.ReadAs<RequestClassMessage>();
-                            var job = this.Helper.Data.ReadSaveData<SaveModel>($"job.{message.PlayerId}");
-                            this.Helper.Multiplayer.SendMessage(new ClassInfoMessage { PlayerId = message.PlayerId, chosenClass = job }, nameof(ClassInfoMessage), playerIDs: new[] { e.FromPlayerID });
+                            try
+                            {
+                                var message = e.ReadAs<RequestClassMessage>();
+                                var job = this.Helper.Data.ReadSaveData<SaveModel>($"Class.{message.PlayerId}");
+                                this.Helper.Multiplayer.SendMessage(new ClassInfoMessage { PlayerId = message.PlayerId, chosenClass = job }, nameof(ClassInfoMessage), playerIDs: new[] { e.FromPlayerID });
+
+                                FarmHandClass = job.chosenClass;
+                                if (FarmHandClass == null && ClassMenu.FarmHandClass != null)
+                                {
+                                    FarmHandClass = ClassMenu.FarmHandClass;
+                                    this.Helper.Data.WriteSaveData($"Class.{message.PlayerId}", new SaveModel { chosenClass = FarmHandClass });
+                                }
+                                else if (FarmHandClass == null && ClassMenu.FarmHandClass == null)
+                                {
+                                    FarmHandClass = "Not Selected";
+                                    Monitor.Log("No Data Found for a Farmhand!", LogLevel.Debug);
+                                }
+
+
+                            }
+                            catch (Exception) { }
                         }
                         break;
                 
 
-             // farmhand: receive job data for the current player
+                    // farmhand: receive job data for the current player
                     case nameof(ClassInfoMessage):
                         if (!Context.IsMainPlayer)
                         {
                             var message = e.ReadAs<ClassInfoMessage>();
-                            classSelect = message.chosenClass;
+                            try
+                            {
+                                classSelect = message.chosenClass;
+                                FarmHandClass = classSelect.chosenClass;
+                                if (FarmHandClass == null && ClassMenu.FarmHandClass != null)
+                                {
+                                    FarmHandClass = ClassMenu.FarmHandClass;
+                                }
+                                else if (FarmHandClass == null && ClassMenu.FarmHandClass == null)
+                                {
+                                    FarmHandClass = "Not Selected";
+                                    Monitor.Log("No Data Found for a Farmhand!", LogLevel.Debug);
+                                }
+
+                            }
+                            catch (Exception) { }
                             this.IsFetchingJobFromHost = false;
                         }
                         break;

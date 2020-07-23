@@ -27,6 +27,7 @@ namespace SelectYourClass
         public static string modDirectory;
         public SettingsModel model;
         public static string classCheck;
+        public static string FarmHandClass;
         
 
 
@@ -111,8 +112,14 @@ namespace SelectYourClass
                     string selectedClass = model.Class1.Name;
                     SelectYourClass.Mod.TempMonitor.Log($"Chosen Class: {selectedClass}", LogLevel.Debug);
                     ClassMenu.classCheck = selectedClass;
+                    
                     Mod.Saving.Data.WriteSaveData("ClassChosen", new SaveModel { chosenClass = selectedClass });
                     SelectYourClass.Mod.TempMonitor.Log($"Save as {selectedClass}", LogLevel.Debug);
+                }
+                if (!Context.IsMainPlayer)
+                {
+                    string selectedClass = model.Class1.Name;
+                    ClassMenu.FarmHandClass = selectedClass;
                 }
                 Game1.player.maxHealth = Game1.player.maxHealth + model.Class1.ModHP;
                 if (model.Class1.ModHP > 0)
@@ -419,7 +426,15 @@ namespace SelectYourClass
             }
             if (this.chooseClass2.containsPoint(x, y))
             {
+                if (Context.IsMainPlayer)
+                {
+                    string selectedClass = model.Class1.Name;
+                    SelectYourClass.Mod.TempMonitor.Log($"Chosen Class: {selectedClass}", LogLevel.Debug);
+                    ClassMenu.classCheck = selectedClass;
 
+                    Mod.Saving.Data.WriteSaveData("ClassChosen", new SaveModel { chosenClass = selectedClass });
+                    SelectYourClass.Mod.TempMonitor.Log($"Save as {selectedClass}", LogLevel.Debug);
+                }
 
                 Game1.player.maxHealth = Game1.player.maxHealth + model.Class2.ModHP;
                 if (model.Class2.ModHP > 0)
@@ -725,7 +740,15 @@ namespace SelectYourClass
             }
             if (this.chooseClass3.containsPoint(x, y))
             {
+                if (Context.IsMainPlayer)
+                {
+                    string selectedClass = model.Class1.Name;
+                    SelectYourClass.Mod.TempMonitor.Log($"Chosen Class: {selectedClass}", LogLevel.Debug);
+                    ClassMenu.classCheck = selectedClass;
 
+                    Mod.Saving.Data.WriteSaveData("ClassChosen", new SaveModel { chosenClass = selectedClass });
+                    SelectYourClass.Mod.TempMonitor.Log($"Save as {selectedClass}", LogLevel.Debug);
+                }
 
                 Game1.player.maxHealth = Game1.player.maxHealth + model.Class3.ModHP;
                 if (model.Class3.ModHP > 0)
@@ -1031,7 +1054,16 @@ namespace SelectYourClass
             }
             if (this.chooseClass4.containsPoint(x, y))
             {
+                if (Context.IsMainPlayer)
+                {
+                    string selectedClass = model.Class1.Name;
+                    SelectYourClass.Mod.TempMonitor.Log($"Chosen Class: {selectedClass}", LogLevel.Debug);
+                    ClassMenu.classCheck = selectedClass;
 
+                    Mod.Saving.Data.WriteSaveData("ClassChosen", new SaveModel { chosenClass = selectedClass });
+                    SelectYourClass.Mod.TempMonitor.Log($"Save as {selectedClass}", LogLevel.Debug);
+                }
+                
 
                 Game1.player.maxHealth = Game1.player.maxHealth + model.Class4.ModHP;
                 if (model.Class4.ModHP > 0)
